@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KrishiMitra - Smart Farming Dashboard</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+<header class="header-new">
+<div class="header-content">
+
+<div class="logo-section">
+<i class="fas fa-leaf"></i>
+<h1>KrishiMitra</h1>
+</div>
+
+<p class="tagline">Smart Farming Dashboard</p>
+
+</div>
+</header>
+
+<!-- INSIGHT CARDS -->
+<div class="top-cards">
+  <div class="insight-card crop-card">
+    <div class="card-icon"><i class="fas fa-seedling"></i></div>
+    <h3>Recommended Crop</h3>
+    <p id="cropCard" class="card-value">--</p>
+  </div>
+
+  <div class="insight-card price-card">
+    <div class="card-icon"><i class="fas fa-indian-rupee-sign"></i></div>
+    <h3>Expected Price</h3>
+    <p id="priceCard" class="card-value">--</p>
+  </div>
+
+  <div class="insight-card health-card">
+    <div class="card-icon"><i class="fas fa-heart-pulse"></i></div>
+    <h3>Disease Status</h3>
+    <p id="diseaseCard" class="card-value status-healthy">Healthy</p>
+  </div>
+</div>
+
+<div class="container">
+
+
+  <!-- CROP PREDICTION -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-plant-wilt"></i>
+      <h2>Crop Prediction</h2>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fas fa-flask"></i> Nitrogen (mg/kg)</label>
+      <input type="number" id="n" placeholder="Enter nitrogen level" min="0" max="200">
+    </div>
+
+    <div class="form-group">
+      <label><i class="fas fa-flask"></i> Phosphorus (mg/kg)</label>
+      <input type="number" id="p" placeholder="Enter phosphorus level" min="0" max="200">
+    </div>
+
+    <div class="form-group">
+      <label><i class="fas fa-cloud-rain"></i> Rainfall (mm)</label>
+      <input type="number" id="r" placeholder="Enter rainfall amount" min="0" max="500">
+    </div>
+
+    <button onclick="predictCrop()" class="btn-primary">
+      <i class="fas fa-magic"></i> Predict Crop
+    </button>
+
+    <div id="cropResult" class="result"></div>
+  </div>
+
+  <!-- WEATHER INSIGHTS -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-cloud-sun"></i>
+      <h2>Weather Insights</h2>
+    </div>
+
+    <div class="weather-info">
+      <p><i class="fas fa-temperature-high"></i> Temperature: 28°C</p>
+      <p><i class="fas fa-cloud-rain"></i> Rainfall Forecast: High</p>
+      <p><i class="fas fa-water"></i> Humidity: 75%</p>
+
+      <p class="weather-recommendation">
+        <i class="fas fa-lightbulb"></i>
+        Weather Recommendation: Rice grows well in high rainfall conditions
+      </p>
+    </div>
+  </div>
+
+  <!-- PRICE TREND -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-chart-line"></i>
+      <h2>Crop Price Trend</h2>
+    </div>
+
+    <canvas id="priceChart"></canvas>
+  </div>
+
+  <!-- DISEASE DETECTION -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-microscope"></i>
+      <h2>Disease Detection</h2>
+    </div>
+
+    <div class="disease-info">
+      <p>
+        <i class="fas fa-info-circle"></i>
+        Use the camera button to upload a leaf image
+      </p>
+    </div>
+
+    <div id="diseaseResult" class="result-box"></div>
+    <div id="pesticideResult" class="pesticide-box"></div>
+  </div>
+
+  <!-- GOOGLE MAPS VENDOR LOCATOR -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-map-location-dot"></i>
+      <h2>Nearby Agro Vendors</h2>
+    </div>
+
+    <iframe
+      width="100%"
+      height="250"
+      style="border:0"
+      loading="lazy"
+      allowfullscreen=""
+      src="https://www.google.com/maps?q=agro+store+near+me&output=embed">
+    </iframe>
+
+    <div class="vendor">
+      <div class="vendor-header">
+        <i class="fas fa-shop"></i>
+        <h4>Green Agro Store</h4>
+      </div>
+
+      <p><i class="fas fa-phone"></i>
+        <a href="tel:9876543210">9876543210</a>
+      </p>
+
+      <div class="discount-badge">10% OFF</div>
+    </div>
+
+    <div class="vendor">
+      <div class="vendor-header">
+        <i class="fas fa-shop"></i>
+        <h4>Krishi Agro Center</h4>
+      </div>
+
+      <p><i class="fas fa-phone"></i>
+        <a href="tel:9123456780">9123456780</a>
+      </p>
+
+      <div class="discount-badge">12% OFF</div>
+    </div>
+  </div>
+</div>
+
+<!-- CAMERA BUTTON -->
+<button class="camera-btn" onclick="openCamera()" title="Upload Leaf Image">
+  <i class="fas fa-camera"></i>
+</button>
+
+<!-- CAMERA INPUT BOX -->
+<div class="camera-box" id="cameraBox">
+  <div style="margin-bottom: 10px;">
+    <label style="display: block; font-weight: 600; margin-bottom: 8px;">Select Leaf Image:</label>
+    <input type="file" onchange="detectDisease()" accept="image/*" style="width: 100%;">
+  </div>
+  <button onclick="closeCameraBox()" style="background: #e74c3c; width: 100%; padding: 8px;">Close</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
