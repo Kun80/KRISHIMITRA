@@ -99,7 +99,7 @@ Pull requests welcome! Please create a feature branch for contributions.
 MIT License - See LICENSE file for details
 
 ## Support
-For issues or questions, create an issue on GitHub or contact support@krishimitra.com
+For issues or questions, create an issue on GitHub or contact kundanathreya@gmail.com
 
 ---
 **KrishiMitra** - Empowering Farmers with Technology 🌾
